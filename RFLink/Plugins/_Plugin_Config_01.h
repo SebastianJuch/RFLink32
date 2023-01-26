@@ -33,8 +33,9 @@
 #define PLUGIN_013 // Powerfix/Quigg
 #define PLUGIN_014 // Ikea Koppla
 #define PLUGIN_015 // Home Easy EU
-#define PLUGIN_017 // RTS
 #define PLUGIN_016 // Silvercrest
+#define PLUGIN_017 // RTS
+#define PLUGIN_018 // Vondom
 // -------------------
 // Weather sensors
 // -------------------

@@ -40,6 +40,6 @@ else
   
 Out-File -append -Encoding ASCII -filePath $filename -inputObject (("$trailernoise`r`n") * 2500)
 
-& "C:\Program Files (x86)\sigrok\PulseView\pulseview.exe" -i "$filename" -I csv:samplerate=1000000
+& "C:\Program Files\sigrok\PulseView\pulseview.exe" -i "$filename" -I csv:samplerate=1000000
 
 
