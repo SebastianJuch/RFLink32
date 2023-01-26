@@ -82,18 +82,6 @@ namespace RFLink {
         Serial.println(F("Failed to obtain time"));
       }
 
-#if (defined(__AVR_ATmega328P__) || defined(__AVR_ATmega2560__))
-      // Low Power Arduino
-    ADCSRA = 0;            // disable ADC
-    power_all_disable();   // turn off all modules
-    power_timer0_enable(); // Timer 0
-    power_usart0_enable(); // UART
-    delay(250);            // Wait ESP-01S
-    power_spi_enable(); // SPI
-#elif defined(ESP32)
-      //btStop();
-#endif
-
 #if (defined(ESP32) || defined(ESP8266))
       Serial.println(); // ESP "Garbage" message
       Serial.print(F("Arduino IDE Version :\t"));
@@ -449,8 +437,15 @@ namespace RFLink {
     void getStatusJsonString(JsonObject &output) {
 
       char buffer[90];
-
       struct timeval now;
+
+      #ifdef ESP8266
+      // Little Patch to get the right boot time when connected to wifi ... Bug ?
+      if (timeAtBoot.tv_sec == 0) {
+        gettimeofday(&timeAtBoot, NULL);
+      }
+      #endif
+
       if (gettimeofday(&now, NULL) != 0) {
         RFLink::sendRawPrint(F("Failed to obtain time"));
       }
