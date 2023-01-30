@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<HtermSequenceFile name="Hterm Sequence File" version="0.8.9">
+  <ItemList>
+    <SequenceItem name="RFDEBUG">
+      <sequence value="a[10;RFDEBUG=ON;]"/>
+      <description>10;RFDEBUG=ON; =&gt; ON/OFF to Enable/Disable showing of RF packets. Is replied with: 20;99;RFDEBUG="state";
+</description>
+    </SequenceItem>
+    <SequenceItem name="RFUDEBUG">
+      <sequence value="a[10;RFUDEBUG=ON; ]"/>
+      <description>10;RFUDEBUG=ON; =&gt; ON/OFF to Enable/Disable showing of undecoded RF packets. Is replied with: 20;99;RFUDEBUG="state";
+</description>
+    </SequenceItem>
+  </ItemList>
+</HtermSequenceFile>
