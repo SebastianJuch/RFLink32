@@ -27,59 +27,40 @@ boolean Plugin_018(byte function, const  char *string)
     const  int VONDOM_MinPulses = 450;
     const  int VONDOM_MaxPulses = 600;
     int i;
+    int pulse_counter =0;
+    static bool start_found =false;
+    static bool end_found =false;
     //if (RawSignal.Number >= VONDOM_MinPulses && RawSignal.Number <= VONDOM_MaxPulses)
     if (RawSignal.Number >= VONDOM_PulseCount_Button_1)
     {
-        unsigned long duration = ((unsigned long)RawSignal.Pulses[1])*RawSignal.Multiply;
-        Serial.print(RawSignal.Number);
-        Serial.print(" Pulses found \n");
-        Serial.print("RawSignal Multiply ");
-        Serial.print(RawSignal.Multiply);
-        Serial.print("\n");
-        Serial.print("Duration");
-        Serial.print(duration);
-        Serial.print("\n");
         for (i = 1; i < RawSignal.Number + 1; i++)
         {
-            bool static start_found = false;
-            bool static end_found = false;
-            int static pulse_counter = 0; 
-            
-
             unsigned long duration = ((unsigned long)RawSignal.Pulses[i])*RawSignal.Multiply;   
             
-            if(duration >= PLUGIN_018_PREAMBLE_MIN || duration <= PLUGIN_018_PREAMBLE_MAX)
+            if(duration >= PLUGIN_018_PREAMBLE_MIN && duration <= PLUGIN_018_PREAMBLE_MAX)
             {
-                if(start_found)
-                {
-                   start_found = false;
-                   end_found = true;
-                }
                 Serial.print("Start Found at position ");
                 Serial.print(i);
                 Serial.print("\n");
-                Serial.print(RawSignal.Pulses[i]);
-
                 start_found = true;
             }
             else if(start_found)
             {
                 pulse_counter ++;
+                if(pulse_counter == 16)
+                {
+                   start_found = false;
+                   end_found = true;
+                   Serial.print("16 Pulses detected \n");
+                }
             }
             else if(end_found)
             {
                 Serial.print(pulse_counter);
-                Serial.print("Pulses Found between start and stop ");
+                Serial.print(" Pulses Found between start and stop \n");
                 end_found = false;
                 pulse_counter = 0;
-
             }
-
-
-
-            RFLink::sendRawPrint(RawSignal.Pulses[i] * RawSignal.Multiply);
-            if (i < RawSignal.Number)
-               RFLink::sendRawPrint(',');
         }
         
         
